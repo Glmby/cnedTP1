@@ -14,7 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author emds
  */
 class FormationsController extends AbstractController {
-
+    
+    const PAGE_FORMATION="pages/formations.html.twig";
     /**
      * 
      * @var FormationRepository
@@ -39,7 +40,7 @@ class FormationsController extends AbstractController {
     public function index(): Response{
         $formations = $this->formationRepository->findAll();
         $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/formations.html.twig", [
+        return $this->render(self::PAGE_FORMATION, [
             'formations' => $formations,
             'categories' => $categories
         ]);
@@ -53,9 +54,9 @@ class FormationsController extends AbstractController {
      * @return Response
      */
     public function sort($champ, $ordre, $table=""): Response{
-        $formations = $this->formationRepository->findAllOrderBy($champ, $ordre, $table);
+        $formations = $this->formationRepository->findAllOrderBy($champ, $ordre,$table);
         $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/formations.html.twig", [
+        return $this->render(self::PAGE_FORMATION, [
             'formations' => $formations,
             'categories' => $categories
         ]);
@@ -72,7 +73,7 @@ class FormationsController extends AbstractController {
         $valeur = $request->get("recherche");
         $formations = $this->formationRepository->findByContainValue($champ, $valeur, $table);
         $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/formations.html.twig", [
+        return $this->render(self::PAGE_FORMATION, [
             'formations' => $formations,
             'categories' => $categories,
             'valeur' => $valeur,
@@ -87,7 +88,7 @@ class FormationsController extends AbstractController {
      */
     public function showOne($id): Response{
         $formation = $this->formationRepository->find($id);
-        return $this->render("pages/formation.html.twig", [
+        return $this->render(self::PAGE_FORMATION, [
             'formation' => $formation
         ]);        
     }   
