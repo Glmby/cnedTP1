@@ -8,6 +8,11 @@
         {% block javascripts %}{% endblock %}
     </head>
     <body>
+        {% for message in app.flashes('error') %}
+    <div class="alert alert-danger" role="alert">
+        {{ message }}
+    </div>
+{% endfor %}
         <!-- entête -->
         {% block top %}{% endblock %}
         <!-- corps -->

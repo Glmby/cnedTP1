@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+{% block title %}{% endblock %}
+{% block stylesheets %}{% endblock %}
+
+{% block top %}
+    <div class="container">
+        <!-- titre -->
+        <div class="text-center">
+            <h1>Gestion des playlists</h1>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <h2>Detail playlist</h2>
+        {{ form_start(formPlaylist) }}
+    
+        {{ form_end(formPlaylist) }}
+       <h3>Formations associées à cette playlist</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for formation in formations %}
+                <tr>
+                    <td>{{ formation.title }}</td>
+                    <td>{{ formation.description }}</td>
+                </tr>
+            {% endfor %}
+        </-tbody>
+    </table>
+{% endblock %}{# empty Twig template #}

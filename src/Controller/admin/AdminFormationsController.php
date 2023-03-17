@@ -48,7 +48,7 @@ use Symfony\Component\Routing\Annotation\Route;
         ]);
     } 
     /**
-     * @Route("/admin/suppr/{id}",name="admin.formation.suppr")
+     * @Route("/admin/formation/suppr/{id}",name="admin.formation.suppr")
      * @param formation $formation
      * @return Response
      */
@@ -57,7 +57,7 @@ use Symfony\Component\Routing\Annotation\Route;
         return $this->redirectToroute('admin.formations');
     }
     /**
-     * @Route("/admin/edit/{id}", name="admin.formation.edit")
+     * @Route("/admin/formation/edit/{id}", name="admin.formation.edit")
      * @param Formation $formation
      * @param Request $request
      * @return Response
@@ -76,7 +76,7 @@ use Symfony\Component\Routing\Annotation\Route;
         ]);
     }
         /**
-     * @Route("/admin/tri/{champ}/{ordre}/{table}", name="Admin.formations.sort")
+     * @Route("/admin/formation/tri/{champ}/{ordre}/{table}", name="Admin.formations.sort")
      * @param type $champ
      * @param type $ordre
      * @param type $table
@@ -95,7 +95,7 @@ use Symfony\Component\Routing\Annotation\Route;
         ]);
     } 
      /**
-     * @Route("/admin/recherche/{champ}/{table}", name="Admin.formations.findallcontain")
+     * @Route("/admin/formation/recherche/{champ}/{table}", name="Admin.formations.findallcontain")
      * @param type $champ
      * @param Request $request
      * @param type $table
@@ -117,7 +117,7 @@ use Symfony\Component\Routing\Annotation\Route;
         ]);
     }  
         /**
-     * @Route("/admin/ajout", name="admin.formation.ajout")
+     * @Route("/admin/formation/ajout", name="admin.formation.ajout")
      * @param Formation $formation
      * @param Request $request
      * @return Response
