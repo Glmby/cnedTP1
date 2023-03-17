@@ -7,19 +7,39 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use DateTime;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
+use Symfony\Component\Validator\Constraints\Date;
+
 
 class FormationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('publishedAt')
-            ->add('title')
+            ->add('publishedAt',DateType::class,[
+                'required' => true,
+                'widget'=>'single_text',
+                'data' => isset($options['data']) &&
+                    $options['data']->getPublishedAt() != null ? $options['data']->getPublishedAt() : new DateTime('now'),
+                'label'=>'date',
+                ])
+            ->add('title',null,[
+                'label'=>'formation'])
             ->add('description')
-            ->add('videoId')
-            ->add('playlist')
-            ->add('categories')
-            ->add('submit', SubmitType::class)
+            ->add('videoId',null,[
+                'required' => true
+            ])
+            ->add('playlist',null,[
+                'required' => true
+            ])
+                
+            ->add('categories',null,[
+                'required' => true
+            ])
+            ->add('submit', SubmitType::class,[
+                'label'=>'Enregistrer'])
         ;
     }
 

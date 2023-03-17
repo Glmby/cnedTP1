@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author bouyg
  */
  class AdminFormationsController extends AbstractController {
-    const PAGE_FORMATION="admin/admin.formations.html.twig";
+    const PAGE_ADMINFORMATION="admin/admin.formations.html.twig";
     /**
      * 
      * @var FormationRepository
@@ -42,7 +42,7 @@ use Symfony\Component\Routing\Annotation\Route;
     public function index(): Response{
         $formations = $this->formationRepository->findAll();
         $categories = $this->categorieRepository->findAll();
-        return $this->render(self::PAGE_FORMATION, [
+        return $this->render(self::PAGE_ADMINFORMATION, [
             'formations' => $formations,
             'categories' => $categories
         ]);
@@ -71,6 +71,67 @@ use Symfony\Component\Routing\Annotation\Route;
             return $this->redirectToRoute('admin.formations');
         }
         return $this->render("admin/admin.formation.edit.html.twig",[
+            'formation'=>$formation,
+            'formFormation'=>$formFormation->createView()
+        ]);
+    }
+        /**
+     * @Route("/admin/tri/{champ}/{ordre}/{table}", name="Admin.formations.sort")
+     * @param type $champ
+     * @param type $ordre
+     * @param type $table
+     * @return Response
+     */
+    public function sort($champ, $ordre, $table=""): Response{
+        if($table==""){
+            $formations = $this->formationRepository->findAllOrderByInFormation($champ, $ordre);
+        } else {
+            $formations = $this->formationRepository->findAllOrderByInRelatedTable($champ, $ordre, $table);
+        }
+        $categories = $this->categorieRepository->findAll();
+        return $this->render(self::PAGE_ADMINFORMATION, [
+            'formations' => $formations,
+            'categories' => $categories
+        ]);
+    } 
+     /**
+     * @Route("/admin/recherche/{champ}/{table}", name="Admin.formations.findallcontain")
+     * @param type $champ
+     * @param Request $request
+     * @param type $table
+     * @return Response
+     */
+    public function findAllContain($champ, Request $request, $table=""): Response{
+        $valeur = $request->get("recherche");
+        if ($table == "") {
+            $formations = $this->formationRepository->findByContainValueInFormation($champ, $valeur);
+        } else {
+            $formations = $this->formationRepository->findByContainValueInRelatedTable($champ, $valeur, $table);
+        }
+        $categories = $this->categorieRepository->findAll();
+        return $this->render(self::PAGE_ADMINFORMATION, [
+            'formations' => $formations,
+            'categories' => $categories,
+            'valeur' => $valeur,
+            'table' => $table
+        ]);
+    }  
+        /**
+     * @Route("/admin/ajout", name="admin.formation.ajout")
+     * @param Formation $formation
+     * @param Request $request
+     * @return Response
+     */
+    public function ajout(Request $request):Response{
+        $formation= new formation();
+        $formFormation=$this->createForm(FormationType::class,$formation);
+        
+        $formFormation->handleRequest($request);
+        if($formFormation->isSubmitted() && $formFormation->isValid()){
+            $this->formationRepository->add($formation, true);
+            return $this->redirectToRoute('admin.formations');
+        }
+        return $this->render("admin/admin.formation.ajout.html.twig",[
             'formation'=>$formation,
             'formFormation'=>$formFormation->createView()
         ]);

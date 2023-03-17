@@ -1,14 +1,32 @@
 {% extends "baseadmin.html.twig" %}
 
 {% block body %}
+    <p class="text-end">
+        <a href="{{ path('admin.formation.ajout') }}" class="btn btn-primary">
+            Ajouter une nouvelle formation
+        </a>
+    </p>
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>
-                    Formation
+                <th class="text-left align-top" scope="col">
+                    formation<br />
+                    <a href="{{ path('Admin.formations.sort', {champ:'title', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
+                    <a href="{{ path('Admin.formations.sort', {champ:'title', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>
+                    <form class="form-inline mt-1" method="POST" action="{{ path('Admin.formations.findallcontain', {champ:'title'}) }}">
+                        <div class="form-group mr-1 mb-2">
+                            <input type="text" class="sm" name="recherche" 
+                                   value="{% if valeur|default and not table|default %}{{ valeur }}{% endif %}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('filtre_title') }}">
+                            <button type="submit" class="btn btn-info mb-2 btn-sm">filtrer</button>
+                        </div>
+                    </form>                    
                 </th>
                 <th>
-                    Gestion
+                    Playlist
+                </th>
+                <th>
+                    Date
                 </th>
             </tr>
         </thead>
@@ -19,6 +37,14 @@
                         <h5 class="text-primary">
                             {{ formation.title }}
                         </h5>
+                    </td>
+                    <td>
+                        <h5>
+                            {{ formation.playlist }}
+                        </h5>
+                    </td>
+                    <td>
+                        {{ formation.publishedatstring }}
                     </td>
                     <td>
                         <a href="{{path ('admin.formation.edit',{id:formation.id}) }}" class="btn btn-secondary">Editer</a>
