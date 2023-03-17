@@ -99,6 +99,6 @@ class FormationsController extends AbstractController {
         return $this->render(self::PAGE_FORMATION, [
             'formation' => $formation
         ]);        
-    }   
-    
+    } 
 }
+    

@@ -114,5 +114,8 @@ public function getCategoriesPlaylist():Collection
     }
     return $categories;
 }
+    public function __toString(): string {
+        return $this->name;
+    }
 
 }
