@@ -1,15 +1,7 @@
-{% extends "base.html.twig" %}
+{% extends "baseadmin.html.twig" %}
 {% block title %}{% endblock %}
 {% block stylesheets %}{% endblock %}
 
-{% block top %}
-    <div class="container">
-        <!-- titre -->
-        <div class="text-center">
-            <h1>Gestion des playlists</h1>
-        </div>
-    </div>
-{% endblock %}
 
 {% block body %}
         <p class="text-end">
@@ -17,12 +9,8 @@
             Ajouter une nouvelle playlist
         </a>
     </p>
-        </p>
-        <p class="text-center">
-        <a href="{{ path('admin.formations') }}" class="btn btn-primary">
-            Gerer les formations
-        </a>
-    </p>
+    <h2 class="text-center">Gestion des playlists</h2>
+
      <table class="table table-striped">
         <caption>Menu</caption>
         <thead>
