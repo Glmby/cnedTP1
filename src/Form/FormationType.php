@@ -23,7 +23,13 @@ class FormationType extends AbstractType
                 'widget'=>'single_text',
                 'data' => isset($options['data']) &&
                     $options['data']->getPublishedAt() != null ? $options['data']->getPublishedAt() : new DateTime('now'),
-                'label'=>'date',
+                'label'=>'Date',
+                'constraints' => [
+            new LessThanOrEqual([
+                'value' => new DateTime('today'),
+                'message' => 'La date ne peut pas être postérieure à aujourd\'hui.',
+            ]),
+                    ],
                 ])
             ->add('title',null,[
                 'label'=>'formation'])

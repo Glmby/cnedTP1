@@ -28,7 +28,7 @@ class KeycloakAuthenticator  extends OAuth2Authenticator implements Authenticati
         $this->entityManager = $entityManager;
         $this->router = $router;
     }
-        public function start(Request $request, AuthenticationException $authException = null)
+        public function start(Request $request, AuthenticationException $authException = null) : Response
     {
         return new RedirectResponse(
             '/oauth/login', 
@@ -39,12 +39,9 @@ class KeycloakAuthenticator  extends OAuth2Authenticator implements Authenticati
     {
         $client = $this->clientRegistry->getClient('keycloak');
         $accessToken = $this->fetchAccessToken($client);
-        
         return new SelfValidatingPassport(
-            new UserBadge($accessToken->getToken(), function() use($accessToken, $client){
-                /**
-                 * @var \App\Security\KeycloakUser $keycloakUser
-                 */
+            new UserBadge($accessToken->getToken(), function() use ($accessToken, $client){
+                /** @var KeycloakUser $keycloakUser */
                 $keycloakUser = $client->fetchUserFromToken($accessToken);
                 
                 // 1) Recherche de l'utilisateur dans la base de données à partir de son ID Keycloak
@@ -59,7 +56,7 @@ class KeycloakAuthenticator  extends OAuth2Authenticator implements Authenticati
                 // 2) Recherche de l'utilisateur dans la base de données à partir de son email
                 $email = $keycloakUser->getEmail();
                 /**
-                 * @var user $userInDatabase
+                 * @var User $userInDatabase
                  */
                 $userInDatabase = $this->entityManager
                     ->getRepository(User::class)

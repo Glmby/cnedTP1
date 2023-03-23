@@ -7,6 +7,9 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * @ORM\Entity(repositoryClass=FormationRepository::class)
@@ -27,6 +30,7 @@ class Formation
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\LessThanOrEqual("today", message="La date de publication ne peut pas être postérieure à aujourd'hui.")
      */
     private $publishedAt;
 
